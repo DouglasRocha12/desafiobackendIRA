@@ -11,4 +11,29 @@ class ProductController extends Controller
     {
         return product::paginate(10);
     }
+
+    public function show($id)
+    {
+        return product::find($id);
+    }
+
+    public function store(Request $request)
+    {
+        $product = product::create($request->all());
+        return $product;
+    }
+
+    public function update(Request $request, $id)
+    {
+        $product = product::find($id);
+        $product->update($request->all());
+        return $product;
+    }
+
+    public function destroy($id)
+    {
+        $product = product::find($id);
+        $product->delete();
+        return 204;
+    }
 }
