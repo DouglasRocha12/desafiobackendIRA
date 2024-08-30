@@ -22,7 +22,7 @@ Route::group([
    Route::get('/', [ProductController::class, 'index'])->middleware('auth:api')->name('products.index');
    Route::post('/', [ProductController::class, 'store'])->middleware('auth:api')->name('products.store');
    Route::get('/{id}', [ProductController::class, 'show'])->middleware('auth:api')->name('products.show');
-   Route::put('/{id}', [ProductController::class, 'update'])->middleware('auth:api')->name('products.update');
+   Route::post('/{id}', [ProductController::class, 'update'])->middleware('auth:api')->name('products.update');
    Route::delete('/{id}', [ProductController::class, 'destroy'])->middleware('auth:api')->name('products.destroy');
 });
 
