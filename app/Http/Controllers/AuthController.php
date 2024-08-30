@@ -9,13 +9,16 @@ use Illuminate\Support\Facades\Validator;
   
 class AuthController extends Controller
 {
- 
+
+
     /**
      * Register a User.
      *
      * @return \Illuminate\Http\JsonResponse
      */
     public function register() {
+
+
         $validator = Validator::make(request()->all(), [
             'name' => 'required',
             'email' => 'required|email|unique:users',
