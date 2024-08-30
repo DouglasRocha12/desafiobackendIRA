@@ -58,7 +58,7 @@ class ProductController extends Controller
                 Storage::disk('public')->delete($product->image);
             }
 
-            $imagePath = $request->file('image')->store('image', 'public');
+            $imagePath = $request->file('image')->storeAs('image', 'public');
 
             $product->update([
                 'image' => $imagePath
@@ -68,7 +68,7 @@ class ProductController extends Controller
 
         $product->update($request->all()); 
 
-        return $product;
+        return product::find($id);
     }
 
     public function destroy($id)
