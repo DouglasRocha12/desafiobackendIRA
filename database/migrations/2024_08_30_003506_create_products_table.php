@@ -17,9 +17,9 @@ return new class extends Migration
             $table->string('name',50);
             $table->string('description',200);
             $table->decimal('price',10,2);
-            $table->date('expiration_date')->default(DB::raw('CURRENT_DATE()'))->change();
+            $table->timestamp('expiration_date')->default(DB::raw('CURRENT_TIMESTAMP'));
             $table->text('image')->uniqid();
-            $table->integer('id_category');
+            $table->integer('id_category')->constrained('categories')->onDelete('cascade');
             $table->timestamps();
         });
     }

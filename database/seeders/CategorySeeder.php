@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Models\product;
+use App\Models\category;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -13,9 +13,16 @@ class CategorySeeder extends Seeder
      */
     public function run(): void
     {
-        product::create([
-            'id' => '1',
-            'description' => 'Teste'
+        category::create([
+            'description' => 'Eletrônicos'
+        ]);
+
+        category::create([
+            'description' => 'Roupas'
+        ]);
+
+        category::create([
+            'description' => 'Alimentos'
         ]);
     }
 }
