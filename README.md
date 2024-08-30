@@ -40,6 +40,15 @@ Gerar a key do projeto Laravel
 php artisan jwt:secret
 ```
 
+Gerar a key do projeto Laravel
+```sh
+php artisan migrate
+```
+
+Gerar a key do projeto Laravel
+```sh
+php artisan db:seed
+```
 
 Acessar o projeto
 [http://localhost:8989](http://localhost:8989)
