@@ -29,13 +29,11 @@ services:
 
     # db mysql
     db:
-        image: mysql:8.0
+        image: mysql:latest
         restart: unless-stopped
         environment:
-            MYSQL_DATABASE: ${DB_DATABASE:-laravel}
-            MYSQL_ROOT_PASSWORD: ${DB_PASSWORD:-root}
-            MYSQL_PASSWORD: ${DB_PASSWORD:-userpass}
-            MYSQL_USER: ${DB_USERNAME:-username}
+            MYSQL_DATABASE: laravel
+            MYSQL_ROOT_PASSWORD: root
         volumes:
             - ./.docker/mysql/dbdata:/var/lib/mysql
         ports:
