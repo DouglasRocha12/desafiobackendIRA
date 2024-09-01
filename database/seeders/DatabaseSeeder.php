@@ -26,11 +26,11 @@ class DatabaseSeeder extends Seeder
 
         Role::create(['name' => 'admin']);
 
-        Permission::create(['name' => 'any']);
+        Permission::create(['name' => 'all']);
 
         $role = Role::findByName('admin');
 
-        $permission = Permission::findByName('any');
+        $permission = Permission::findByName('all');
 
         $role->givePermissionTo($permission);
 
