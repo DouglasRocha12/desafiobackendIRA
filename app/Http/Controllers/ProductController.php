@@ -8,10 +8,14 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
 
+
 class ProductController extends Controller
 {
+    public function __construct() {}
+
     public function index()
     {
+
         if (isset($_GET['limit'])) {
             $limit = $_GET['limit'];
         } else {
@@ -31,7 +35,8 @@ class ProductController extends Controller
             $products[$i]->image = Storage::disk('public')->url($products[$i]->image);
         }
 
-        return $products;
+       return response()->json($products, 200);
+
     }
 
     public function show($id)
@@ -41,11 +46,14 @@ class ProductController extends Controller
 
         if (is_null($product)) return response()->json('Product not found', 404);
 
-        return $product;
+        return response()->json($product, 200);
     }
 
     public function store(Request $request)
     {
+
+        $user = auth()->user();
+        if (!$user->hasRole('admin')) return response()->json('Unauthorized', 422);
 
         $validator = Validator::make($request->all(), [
             'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
@@ -74,11 +82,15 @@ class ProductController extends Controller
 
         $product = product::create($products);
 
-        return $product;
+        return response()->json($product, 201);
     }
 
     public function update(Request $request, $id)
     {
+
+        
+        $user = auth()->user();
+        if (!$user->hasRole('admin')) return response()->json('Unauthorized', 422);
 
         $validator = Validator::make($request->all(), [
             'image' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
@@ -115,12 +127,16 @@ class ProductController extends Controller
 
         $product->update($request->except(['image']));
 
+        return response()->json( product::find($id), 200);
 
-        return product::find($id);
     }
 
     public function destroy($id)
     {
+
+        $user = auth()->user();
+        if (!$user->hasRole('admin')) return response()->json('Unauthorized', 422);
+
         $product = product::find($id);
 
         if (is_null($product)) return response()->json('Product not found', 404);

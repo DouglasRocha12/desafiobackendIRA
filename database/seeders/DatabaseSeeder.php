@@ -5,6 +5,9 @@ namespace Database\Seeders;
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Spatie\Permission\Models\Permission;
+use Spatie\Permission\Models\Role;
+
 
 class DatabaseSeeder extends Seeder
 {
@@ -21,9 +24,23 @@ class DatabaseSeeder extends Seeder
             'password' => bcrypt('123456789')
         ]);
 
+        Role::create(['name' => 'admin']);
+
+        Permission::create(['name' => 'all']);
+
+        $role = Role::findByName('admin');
+
+        $permission = Permission::findByName('all');
+
+        $role->givePermissionTo($permission);
+
+        $user = User::find(1);
+        $user->assignRole('admin');
+
+
         $this->call([
-           CategorySeeder::class,
-           ProductSeeder::class
+            CategorySeeder::class,
+            ProductSeeder::class
         ]);
     }
 }
