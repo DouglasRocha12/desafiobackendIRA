@@ -17,7 +17,9 @@ class AuthController extends Controller
      * @return \Illuminate\Http\JsonResponse
      */
     public function register() {
-
+        
+        $user = auth()->user();
+        if (!$user->hasRole('admin')) return response()->json('Unauthorized', 422);
 
         $validator = Validator::make(request()->all(), [
             'name' => 'required',
