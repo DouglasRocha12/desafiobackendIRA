@@ -2,6 +2,7 @@
  
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ProductController;
 
 Route::group([
@@ -22,7 +23,18 @@ Route::group([
    Route::get('/', [ProductController::class, 'index'])->middleware('auth:api')->name('products.index');
    Route::post('/', [ProductController::class, 'store'])->middleware('auth:api')->name('products.store');
    Route::get('/{id}', [ProductController::class, 'show'])->middleware('auth:api')->name('products.show');
-   Route::post('/{id}', [ProductController::class, 'update'])->middleware('auth:api')->name('products.update');
+   Route::put('/{id}', [ProductController::class, 'update'])->middleware('auth:api')->name('products.update');
    Route::delete('/{id}', [ProductController::class, 'destroy'])->middleware('auth:api')->name('products.destroy');
+});
+
+Route::group([
+    'middleware' => 'api',
+    'prefix' => 'category'
+], function ($router) {
+   Route::get('/', [CategoryController::class, 'index'])->middleware('auth:api')->name('products.index');
+   Route::post('/', [CategoryController::class, 'store'])->middleware('auth:api')->name('products.store');
+   Route::get('/{id}', [CategoryController::class, 'show'])->middleware('auth:api')->name('products.show');
+   Route::put('/{id}', [CategoryController::class, 'update'])->middleware('auth:api')->name('products.update');
+   Route::delete('/{id}', [CategoryController::class, 'destroy'])->middleware('auth:api')->name('products.destroy');
 });
 

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\product;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
@@ -11,22 +12,21 @@ use Illuminate\Support\Facades\Validator;
 
 class ProductController extends Controller
 {
-    public function __construct() {}
-
-    public function index()
+    public function index(Request $request)
     {
 
-        if (isset($_GET['limit'])) {
-            $limit = $_GET['limit'];
+        if ($request->has('limit')) {
+            $limit = $request->limit;
         } else {
             $limit = 10;
         }
 
-        if (isset($_GET['search'])) {
-            $products = product::where('name', 'like', '%' . $_GET['search'] . '%')
-                ->where('description', 'like', '%' . $_GET['search'] . '%')
+        if ($request->has('search')) {
+            $products = product::where('name', 'like', '%' . $request->search . '%')
+                ->orWhere('description', 'like', '%' . $request->search . '%')
                 ->paginate($limit);
         } else {
+
 
             $products = product::paginate($limit);
         }
@@ -35,8 +35,8 @@ class ProductController extends Controller
             $products[$i]->image = Storage::disk('public')->url($products[$i]->image);
         }
 
-       return response()->json($products, 200);
 
+        return is_null($products) ? response()->json('Product not found', 404) : response()->json($products, 200);
     }
 
     public function show($id)
@@ -44,15 +44,14 @@ class ProductController extends Controller
 
         $product = product::find($id);
 
-        if (is_null($product)) return response()->json('Product not found', 404);
-
-        return response()->json($product, 200);
+        return is_null($product) ? response()->json('Product not found', 404) : response()->json($product, 200);
     }
 
     public function store(Request $request)
     {
 
         $user = auth()->user();
+
         if (!$user->hasRole('admin')) return response()->json('Unauthorized', 422);
 
         $validator = Validator::make($request->all(), [
@@ -67,28 +66,37 @@ class ProductController extends Controller
         if ($validator->fails()) {
             return response()->json(['errors' => $validator->errors()], 422);
         }
-        // $validatedData = $request->validate([
 
-        // ]);
+        DB::beginTransaction();
 
-        $products = $request->except(['image']);
+        try {
 
-        if ($request->hasFile('image')) { //Verificar se existe imagem no request 
+            $products = $request->except(['image']);
 
-            $imagePath = $request->file('image')->store('image', 'public');
+            if ($request->hasFile('image')) { //Verificar se existe imagem no request 
 
-            $products['image'] = $imagePath;
+                $imagePath = $request->file('image')->store('image', 'public');
+
+                $products['image'] = $imagePath;
+            }
+
+            $product = product::create($products);
+
+            DB::commit();
+
+            return response()->json($product, 201);
+        } catch (\Exception $e) {
+
+            DB::rollback();
+
+            return response()->json($e->getMessage(), 500);
         }
-
-        $product = product::create($products);
-
-        return response()->json($product, 201);
     }
 
     public function update(Request $request, $id)
     {
 
-        
+
         $user = auth()->user();
         if (!$user->hasRole('admin')) return response()->json('Unauthorized', 422);
 
@@ -127,8 +135,7 @@ class ProductController extends Controller
 
         $product->update($request->except(['image']));
 
-        return response()->json( product::find($id), 200);
-
+        return response()->json(product::find($id), 200);
     }
 
     public function destroy($id)
@@ -147,6 +154,6 @@ class ProductController extends Controller
 
         $product->delete();
 
-        return 204;
+        return response()->json('Product deleted', 200);
     }
 }
