@@ -9,7 +9,7 @@ https://www.postman.com/aerospace-geoscientist-125091/workspace/api-publicas/col
 
 para Esta Aplicação foi utilizado o ambiente de apio da especializa T.I.
 
-[Assine a Academy, e Seja VIP!](https://academy.especializati.com.br)
+[especializa T.I.](https://academy.especializati.com.br)
 
 [SPATIE para Rolos e Permission](https://spatie.be/docs/laravel-permission/v6/basic-usage/basic-usage)
 
