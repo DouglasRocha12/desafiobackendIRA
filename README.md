@@ -1,14 +1,33 @@
 
-# Setup Docker Para Projetos Laravel (8, 9, 10 ou 11)
+# URL Collection
+
+```sh
+https://www.postman.com/aerospace-geoscientist-125091/workspace/api-publicas/collection/15462778-532c333f-d6c2-427e-95dd-67ad1e91801a?action=share&creator=15462778
+```
+
+# Packeges, Dependências e ferrametas 
+
 para Esta Aplicação foi utilizado o ambiente de apio da especializa T.I.
 
 [Assine a Academy, e Seja VIP!](https://academy.especializati.com.br)
+
+[SPATIE para Rolos e Permission](https://spatie.be/docs/laravel-permission/v6/basic-usage/basic-usage)
+
+
+packege: php-open-source-saver/jwt-auth
+
 
 ### Passo a passo
 
 Crie o Arquivo .env
 ```sh
 cp .env.example .env
+```
+
+Crie o Arquivo .env (windows)
+
+```sh
+copy .env.example .env
 ```
 
 Suba os containers do projeto
