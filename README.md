@@ -74,5 +74,10 @@ Gerar a key do projeto Laravel
 php artisan storage:link
 ```
 
+obs: caso rode o projeto em sistemas linux liberar permissão na pasta 
+```sh
+chmod 777 -R nomedapasta
+```
+
 Acessar o projeto
 [http://localhost:8989](http://localhost:8989)
